@@ -1,0 +1,29 @@
+[
+    { 
+        "CarrierId": 1,
+        "TransportId": 1,
+        "Orders": [],
+        "Created": "2023-10-11T08:00:00",
+        "TripDateTime": "2023-10-12T09:00:00",
+        "PassangersNumber": 4,
+        "TripProfit": 8000
+    },
+    {
+        "CarrierId": 2,
+        "TransportId": 2,
+        "Orders": [],
+        "Created": "2023-10-11T10:15:00",
+        "TripDateTime": "2023-10-13T14:30:00",
+        "PassangersNumber": 2,
+        "TripProfit": 4000
+      },
+      {
+        "CarrierId": 3,
+        "TransportId": 3,
+        "Orders": [],
+        "Created": "2023-10-11T12:30:00",
+        "TripDateTime": "2023-10-14T16:00:00",
+        "PassangersNumber": 3,
+        "TripProfit": 6000
+      }
+]

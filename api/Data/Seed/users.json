@@ -1,0 +1,43 @@
+[   
+    {
+    "Created": "2023-10-10T14:30:00",
+    "Updated": "2023-10-11T09:15:00",
+    "Name": "John Doe",
+    "TelegramNick": "@johndoe",
+    "BirthDate": "1990-05-15T09:15:00",
+    "LastTrip": "2023-10-08T09:15:00",
+    "PhoneNumber": "+9876543210",
+    "Email": "johndoe@gmail.com",
+    "Addresses": [],
+    "TripsCount": 10,
+    "Discount": 0.1,
+    "SubscriptionPeriod": 1,
+    "IsSubscriptionActive": true,
+    "SubscriptionTripsCount": 1,
+    "Notes": "Preferred customer"
+    },
+    {
+        "Created": "2023-10-11T08:00:00",
+        "TelegramNick": "@pupkin",
+        "TripsCount": 5,
+        "PhoneNumber": "+1234567890"
+    },
+    {
+        "Created": "2023-10-09T18:45:00",
+        "Updated": "2023-10-10T11:30:00",
+        "Name": "Alice Smith",
+        "TelegramNick": "@alicesmith",
+        "BirthDate": "1985-03-20T09:15:00",
+        "LastTrip": "2023-10-07T09:15:00",
+        "Discount": null,
+        "SubscriptionPeriod": 2,
+        "IsSubscriptionActive": false,
+        "SubscriptionTripsCount": 0,
+        "TripsCount": 8,
+        "PhoneNumber": "+1122334455",
+        "Email": "a.smith@gmail.com",
+        "Addresses": [],
+        "Notes": "Loyal customer",
+        "Orders": []
+    }
+]

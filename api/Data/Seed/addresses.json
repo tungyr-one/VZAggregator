@@ -1,0 +1,24 @@
+[
+    {
+        "City": "Novi Sad",
+        "Address": "Ćirpanova 9-1",
+        "GeoLink": "https://maps.app.goo.gl/1hCE9e4wZby6xKnX9",
+        "Coordinates:": "45°15'09.8\"N 19°50'05.1\"E",
+        "Notes": "After arch go right"
+      },
+      {
+        "City": "Belgrad",
+        "Address": "456 Elm Avenue",
+        "GeoLink": null
+      },
+      {
+        "City": "Subotica",
+        "Address": "789 Oak Road",
+        "GeoLink": "https://maps.google.com/789oak"
+      },
+      {
+        "City": "Sremska Kamenica",
+        "Address": "5476 Palms Road",
+        "GeoLink": "https://maps.google.com/5476palms"
+      }    
+]
