@@ -1,4 +1,4 @@
-using VZAggregator.Entities;
+using VZAggregator.Models;
 
 namespace VZAggregator.DTOs
 {

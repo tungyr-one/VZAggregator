@@ -1,7 +1,7 @@
 using System.Reflection;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using VZAggregator.Entities;
+using VZAggregator.Models;
 
 namespace VZAggregator.Data
 {

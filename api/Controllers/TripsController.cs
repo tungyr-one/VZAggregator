@@ -1,6 +1,7 @@
+using api.DTOs;
+using api.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using VZAggregator.DTOs;
-using VZAggregator.Interfaces;
 using VZAggregator.Interfaces.Repositories;
 
 namespace VZAggregator.Controllers
@@ -16,9 +17,9 @@ namespace VZAggregator.Controllers
             _tripsService = tripsService;
         }
 
-            ///<summary>
-            /// Gets trip from service, if null returns NotFound
-            ///</summary>
+        ///<summary>
+        /// Gets trip from service, if null returns NotFound
+        ///</summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<TripDto>> GetTrip(int id)
         {
@@ -32,13 +33,11 @@ namespace VZAggregator.Controllers
         ///<summary>
         /// Gets trips list
         ///</summary>
-        [HttpGet]
-        public async Task<ActionResult<TripDto[]>> GetTrips()
+        [HttpPost]
+        public async Task<ActionResult<Pagination<TripDto>>> GetTrips(UserParams userParams)
         {
-            var trips = await _tripsService.GetTripsAsync();
-            HttpContext.Response.StatusCode = 200;
-            await HttpContext.Response.WriteAsJsonAsync(trips);
-            return new EmptyResult();
+            var trips = await _tripsService.GetTripsAsync(userParams);
+            return Ok(trips);
         }
 
         ///<summary>

@@ -22,7 +22,7 @@ namespace VZAggregator.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("VZAggregator.Entities.Address", b =>
+            modelBuilder.Entity("VZAggregator.Models.Address", b =>
                 {
                     b.Property<int>("AddressId")
                         .ValueGeneratedOnAdd()
@@ -55,7 +55,7 @@ namespace VZAggregator.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.Carrier", b =>
+            modelBuilder.Entity("VZAggregator.Models.Carrier", b =>
                 {
                     b.Property<int>("CarrierId")
                         .ValueGeneratedOnAdd()
@@ -65,6 +65,9 @@ namespace VZAggregator.Migrations
 
                     b.Property<DateTime>("HiringDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -77,7 +80,7 @@ namespace VZAggregator.Migrations
                     b.ToTable("Carriers");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.Order", b =>
+            modelBuilder.Entity("VZAggregator.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
@@ -124,7 +127,7 @@ namespace VZAggregator.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.Transport", b =>
+            modelBuilder.Entity("VZAggregator.Models.Transport", b =>
                 {
                     b.Property<int>("TransportId")
                         .ValueGeneratedOnAdd()
@@ -151,7 +154,7 @@ namespace VZAggregator.Migrations
                     b.ToTable("Transports");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.Trip", b =>
+            modelBuilder.Entity("VZAggregator.Models.Trip", b =>
                 {
                     b.Property<int>("TripId")
                         .ValueGeneratedOnAdd()
@@ -165,13 +168,13 @@ namespace VZAggregator.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DepartureAddressAddressId")
+                    b.Property<int>("DepartureAddressId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DestinationAddressAddressId")
+                    b.Property<int>("DestinationAddressId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PassengersNumber")
+                    b.Property<int>("PassengersCapacity")
                         .HasColumnType("int");
 
                     b.Property<int>("TransportId")
@@ -180,7 +183,7 @@ namespace VZAggregator.Migrations
                     b.Property<DateTime>("TripDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("TripProfit")
+                    b.Property<decimal>("TripPrice")
                         .HasColumnType("decimal(18, 4)");
 
                     b.Property<int>("TripType")
@@ -193,16 +196,16 @@ namespace VZAggregator.Migrations
 
                     b.HasIndex("CarrierId");
 
-                    b.HasIndex("DepartureAddressAddressId");
+                    b.HasIndex("DepartureAddressId");
 
-                    b.HasIndex("DestinationAddressAddressId");
+                    b.HasIndex("DestinationAddressId");
 
                     b.HasIndex("TransportId");
 
                     b.ToTable("Trips");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.User", b =>
+            modelBuilder.Entity("VZAggregator.Models.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -257,33 +260,33 @@ namespace VZAggregator.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.Address", b =>
+            modelBuilder.Entity("VZAggregator.Models.Address", b =>
                 {
-                    b.HasOne("VZAggregator.Entities.User", null)
+                    b.HasOne("VZAggregator.Models.User", null)
                         .WithMany("Addresses")
                         .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.Carrier", b =>
+            modelBuilder.Entity("VZAggregator.Models.Carrier", b =>
                 {
-                    b.HasOne("VZAggregator.Entities.User", "User")
+                    b.HasOne("VZAggregator.Models.User", "User")
                         .WithOne()
-                        .HasForeignKey("VZAggregator.Entities.Carrier", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("VZAggregator.Models.Carrier", "UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.Order", b =>
+            modelBuilder.Entity("VZAggregator.Models.Order", b =>
                 {
-                    b.HasOne("VZAggregator.Entities.Trip", "Trip")
+                    b.HasOne("VZAggregator.Models.Trip", "Trip")
                         .WithMany("Orders")
                         .HasForeignKey("TripId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("VZAggregator.Entities.User", "User")
+                    b.HasOne("VZAggregator.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -294,30 +297,34 @@ namespace VZAggregator.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.Transport", b =>
+            modelBuilder.Entity("VZAggregator.Models.Transport", b =>
                 {
-                    b.HasOne("VZAggregator.Entities.Carrier", null)
+                    b.HasOne("VZAggregator.Models.Carrier", null)
                         .WithMany("Transports")
                         .HasForeignKey("CarrierId");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.Trip", b =>
+            modelBuilder.Entity("VZAggregator.Models.Trip", b =>
                 {
-                    b.HasOne("VZAggregator.Entities.Carrier", "Carrier")
+                    b.HasOne("VZAggregator.Models.Carrier", "Carrier")
                         .WithMany()
                         .HasForeignKey("CarrierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VZAggregator.Entities.Address", "DepartureAddress")
+                    b.HasOne("VZAggregator.Models.Address", "DepartureAddress")
                         .WithMany()
-                        .HasForeignKey("DepartureAddressAddressId");
+                        .HasForeignKey("DepartureAddressId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.HasOne("VZAggregator.Entities.Address", "DestinationAddress")
+                    b.HasOne("VZAggregator.Models.Address", "DestinationAddress")
                         .WithMany()
-                        .HasForeignKey("DestinationAddressAddressId");
+                        .HasForeignKey("DestinationAddressId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.HasOne("VZAggregator.Entities.Transport", "Transport")
+                    b.HasOne("VZAggregator.Models.Transport", "Transport")
                         .WithMany()
                         .HasForeignKey("TransportId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -332,17 +339,17 @@ namespace VZAggregator.Migrations
                     b.Navigation("Transport");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.Carrier", b =>
+            modelBuilder.Entity("VZAggregator.Models.Carrier", b =>
                 {
                     b.Navigation("Transports");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.Trip", b =>
+            modelBuilder.Entity("VZAggregator.Models.Trip", b =>
                 {
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("VZAggregator.Entities.User", b =>
+            modelBuilder.Entity("VZAggregator.Models.User", b =>
                 {
                     b.Navigation("Addresses");
 

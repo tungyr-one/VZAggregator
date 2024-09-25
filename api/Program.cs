@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.EntityFrameworkCore;
 using VZAggregator.Data;
-using VZAggregator.Entities.Extensions;
+using VZAggregator.Models.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

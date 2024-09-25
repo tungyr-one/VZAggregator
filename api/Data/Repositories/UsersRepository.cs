@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using VZAggregator.Entities;
+using VZAggregator.Models;
 using VZAggregator.Interfaces;
 
 namespace VZAggregator.Data.Repositories

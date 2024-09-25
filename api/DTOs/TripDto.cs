@@ -1,4 +1,4 @@
-using VZAggregator.Entities;
+using VZAggregator.Models;
 
 namespace VZAggregator.DTOs
 {
@@ -14,8 +14,8 @@ namespace VZAggregator.DTOs
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
         public DateTime TripDateTime { get; set; }
-        public int PassengersNumber { get; set; }
-        public decimal TripProfit { get; set; }
+        public int PassengersCapacity { get; set; }
+        public decimal TripPrice { get; set; }
 
         public int CarrierId { get; set; }
         public Carrier Carrier { get; set; }

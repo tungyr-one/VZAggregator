@@ -6,7 +6,7 @@ using VZAggregator.Interfaces;
 using VZAggregator.Interfaces.Repositories;
 using VZAggregator.Services;
 
-namespace VZAggregator.Entities.Extensions
+namespace VZAggregator.Models.Extensions
 {
     public static class ApplicationServiceExtenstions
     {

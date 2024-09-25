@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using VZAggregator.Entities;
+using VZAggregator.Models;
 using VZAggregator.Interfaces.Repositories;
+using api.DTOs;
+using System.Linq.Expressions;
+using api.Helpers;
 
 namespace VZAggregator.Data.Repositories
 {
@@ -19,9 +22,36 @@ namespace VZAggregator.Data.Repositories
             .FirstOrDefaultAsync(x => x.TripId == id);
         }
 
-        public async Task<Trip[]> GetTripsAsync()
+
+// {
+//   "offset": 0,
+//   "pageSize": 5,
+//   "filterBy": "",
+//   "sortBy": "name",
+//   "sortOrder": "asc"
+// }
+
+        public async Task<Trip[]> GetTripsAsync(UserParams userParams)
         {
-            var query = _context.Trips.AsQueryable();
+
+            userParams.SortBy = userParams.SortBy.CapitalizeFirstLetter();
+
+            var query = _context.Trips
+            .Include(t => t.Transport)
+            .Include(t => t.Carrier)
+            .Include(t => t.DepartureAddress)
+            .Include(t => t.DestinationAddress)
+            .AsQueryable();
+
+            if(!string.IsNullOrWhiteSpace(userParams.FilterBy))
+            {
+                query = query.Where(t => t.Carrier.Name.StartsWith(userParams.FilterBy));
+            }
+
+            query = userParams.SortOrder == "asc"
+            ? query.OrderBy(ResolveOrderFieldExpression(userParams))
+            : query.OrderByDescending(ResolveOrderFieldExpression(userParams));
+
             return await query.AsNoTracking().ToArrayAsync();
         }
 
@@ -44,5 +74,17 @@ namespace VZAggregator.Data.Repositories
             _context.Entry(tripToDelete).State = EntityState.Deleted; 
             return await _context.SaveChangesAsync() > 0;
         }
+
+        private static Expression<Func<Trip, object>> ResolveOrderFieldExpression(UserParams userParams)
+        => userParams.SortBy switch
+        {
+            nameof(Trip.Carrier.Name) => x => x.Carrier.Name,
+            nameof(Trip.DepartureAddress.City) => x => x.DepartureAddress.City,
+            nameof(Trip.Created) => x => x.Created,
+            nameof(Trip.TripDateTime) => x => x.TripDateTime,
+            nameof(Trip.TripPrice) => x => x.TripPrice,
+            nameof(Trip.TripType) => x => x.TripType,
+            _ => x => x.TripId
+        };
     }
 }

@@ -1,4 +1,4 @@
-namespace VZAggregator.Entities
+namespace VZAggregator.Models
 {
     public enum SubscriptionPeriod
     {

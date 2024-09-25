@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using VZAggregator.Entities;
+using VZAggregator.Models;
 
 namespace VZAggregator.Data
 {
@@ -54,7 +54,7 @@ namespace VZAggregator.Data
             .HasOne(d => d.User)
             .WithOne()
             .HasForeignKey<Carrier>(d => d.UserId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
            
 
             modelBuilder.Entity<Address>()
@@ -74,14 +74,27 @@ namespace VZAggregator.Data
             .IsRequired();
 
             modelBuilder.Entity<Trip>()
-            .Property(o => o.TripProfit)
+            .Property(o => o.TripPrice)
             .HasColumnType("decimal(18, 4)");
 
             modelBuilder.Entity<Trip>()
             .HasMany(t => t.Orders)
             .WithOne(o => o.Trip)
             .HasForeignKey(c => c.TripId)
-            .OnDelete(DeleteBehavior.Restrict);
-        }
+            .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Trip>()
+            .HasOne(t => t.DepartureAddress)
+            .WithMany()
+            .HasForeignKey(d => d.DepartureAddressId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Trip>()
+            .HasOne(t => t.DestinationAddress)
+            .WithMany()
+            .HasForeignKey(d => d.DestinationAddressId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+            }
     }
 }

@@ -1,6 +1,6 @@
 using AutoMapper;
 using VZAggregator.DTOs;
-using VZAggregator.Entities;
+using VZAggregator.Models;
 using VZAggregator.Interfaces;
 using VZAggregator.Interfaces.Repositories;
 

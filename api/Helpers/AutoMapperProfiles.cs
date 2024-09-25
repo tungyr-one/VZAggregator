@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using VZAggregator.DTOs;
-using VZAggregator.Entities;
+using VZAggregator.Models;
 
 namespace VZAggregator.Helpers
 {

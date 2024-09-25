@@ -66,6 +66,7 @@ namespace VZAggregator.Migrations
                 {
                     CarrierId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     HiringDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -76,8 +77,7 @@ namespace VZAggregator.Migrations
                         name: "FK_Carriers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -108,27 +108,27 @@ namespace VZAggregator.Migrations
                     TripId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TripType = table.Column<int>(type: "int", nullable: false),
-                    DepartureAddressAddressId = table.Column<int>(type: "int", nullable: true),
-                    DestinationAddressAddressId = table.Column<int>(type: "int", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Updated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TripDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PassengersNumber = table.Column<int>(type: "int", nullable: false),
-                    TripProfit = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    PassengersCapacity = table.Column<int>(type: "int", nullable: false),
+                    TripPrice = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     CarrierId = table.Column<int>(type: "int", nullable: false),
-                    TransportId = table.Column<int>(type: "int", nullable: false)
+                    TransportId = table.Column<int>(type: "int", nullable: false),
+                    DepartureAddressId = table.Column<int>(type: "int", nullable: false),
+                    DestinationAddressId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Trips", x => x.TripId);
                     table.ForeignKey(
-                        name: "FK_Trips_Addresses_DepartureAddressAddressId",
-                        column: x => x.DepartureAddressAddressId,
+                        name: "FK_Trips_Addresses_DepartureAddressId",
+                        column: x => x.DepartureAddressId,
                         principalTable: "Addresses",
                         principalColumn: "AddressId");
                     table.ForeignKey(
-                        name: "FK_Trips_Addresses_DestinationAddressAddressId",
-                        column: x => x.DestinationAddressAddressId,
+                        name: "FK_Trips_Addresses_DestinationAddressId",
+                        column: x => x.DestinationAddressId,
                         principalTable: "Addresses",
                         principalColumn: "AddressId");
                     table.ForeignKey(
@@ -169,8 +169,7 @@ namespace VZAggregator.Migrations
                         name: "FK_Orders_Trips_TripId",
                         column: x => x.TripId,
                         principalTable: "Trips",
-                        principalColumn: "TripId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "TripId");
                     table.ForeignKey(
                         name: "FK_Orders_Users_UserId",
                         column: x => x.UserId,
@@ -211,14 +210,14 @@ namespace VZAggregator.Migrations
                 column: "CarrierId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trips_DepartureAddressAddressId",
+                name: "IX_Trips_DepartureAddressId",
                 table: "Trips",
-                column: "DepartureAddressAddressId");
+                column: "DepartureAddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trips_DestinationAddressAddressId",
+                name: "IX_Trips_DestinationAddressId",
                 table: "Trips",
-                column: "DestinationAddressAddressId");
+                column: "DestinationAddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Trips_TransportId",

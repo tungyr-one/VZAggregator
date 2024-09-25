@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace VZAggregator.Entities
+namespace VZAggregator.Models
 {
     public class Order
     {

@@ -1,8 +1,10 @@
 using AutoMapper;
 using VZAggregator.DTOs;
-using VZAggregator.Entities;
+using VZAggregator.Models;
 using VZAggregator.Interfaces;
 using VZAggregator.Interfaces.Repositories;
+using api.Helpers;
+using api.DTOs;
 
 namespace VZAggregator.Services
 {
@@ -24,10 +26,13 @@ namespace VZAggregator.Services
             return _mapper.Map<TripDto>(trip);
         }
 
-        public async Task<IEnumerable<TripDto>> GetTripsAsync()
+        public async Task<Pagination<TripDto>> GetTripsAsync(UserParams userParams)
         {
-            var trips = await _tripsRepository.GetTripsAsync();
-            return _mapper.Map<IEnumerable<TripDto>>(trips);  
+            var trips = await _tripsRepository.GetTripsAsync(userParams); 
+            return Pagination<TripDto>.ToPageResult(
+            _mapper.Map<IEnumerable<TripDto>>(trips),
+            userParams.Offset,
+            userParams.PageSize); 
         }
 
         public async Task<bool> CreateAsync(TripDto newTrip)

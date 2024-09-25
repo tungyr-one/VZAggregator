@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.DTOs;
+using api.Helpers;
 using VZAggregator.DTOs;
 
 namespace VZAggregator.Interfaces.Repositories
@@ -11,7 +13,7 @@ namespace VZAggregator.Interfaces.Repositories
          ///<summary>
         /// Gets trip
         ///</summary>
-        Task<IEnumerable<TripDto>> GetTripsAsync();
+        Task<Pagination<TripDto>> GetTripsAsync(UserParams userParams);
 
         ///<summary>
         /// Gets tripes list
