@@ -2,6 +2,7 @@ using AutoMapper;
 using VZAggregator.DTOs;
 using VZAggregator.Models;
 using VZAggregator.Interfaces;
+using api.Models;
 
 namespace VZAggregator.Services
 {
@@ -30,7 +31,7 @@ namespace VZAggregator.Services
 
         public async Task<bool> CreateAsync(UserDto newUser)
         {
-            var userToDb = _mapper.Map<User>(newUser);
+            var userToDb = _mapper.Map<AppUser>(newUser);
             newUser.Created = DateTime.UtcNow;
             return await _usersRepository.CreateAsync(userToDb);
         }

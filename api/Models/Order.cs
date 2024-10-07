@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using api.Models;
 
 namespace VZAggregator.Models
 {
@@ -9,7 +10,7 @@ namespace VZAggregator.Models
         public int TripId { get; set; }
         public Trip Trip { get; set; }
         public int UserId { get; set; }
-        public User User { get; set; }
+        public AppUser User { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
         public int PassengersNumber { get; set; }

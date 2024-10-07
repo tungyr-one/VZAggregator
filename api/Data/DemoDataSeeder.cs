@@ -1,7 +1,11 @@
 using System.Reflection;
 using System.Text.Json;
+using api.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using VZAggregator.Interfaces;
 using VZAggregator.Models;
+using VZAggregator.Services;
 
 namespace VZAggregator.Data
 {
@@ -14,9 +18,9 @@ namespace VZAggregator.Data
         private const string CarriersDemoDataFilePath = "./Data/Seed/carriers.json";
         private const string TransportDemoDataFilePath = "./Data/Seed/transports.json";
 
-        public static async Task SeedAsync(DataContext context)
+        public static async Task SeedAsync(DataContext context, UserManager<AppUser> usersService, RoleManager<AppRole> roleManager)
         {
-            await SeedUsersAsync(context);
+            await SeedUsersAsync(context, usersService, roleManager);
             await SeedAddressesAsync(context);
             await SeedCarriersAsync(context);
             await SeedTransportsAsync(context);
@@ -61,14 +65,31 @@ namespace VZAggregator.Data
             await context.SaveChangesAsync();
         }
 
-        private static async Task SeedUsersAsync(DataContext context)
+        private static async Task SeedUsersAsync(DataContext context, UserManager<AppUser> userManager, 
+        RoleManager<AppRole> roleManager)
         {
             var usersFullPath = GetFullFilePath(UsersDemoDataFilePath);
             if (!File.Exists(usersFullPath) || await context.Users.AnyAsync())
             return;
 
             var usersJson = await File.ReadAllTextAsync(usersFullPath);
-            var users = JsonSerializer.Deserialize<User[]>(usersJson);
+            var users = JsonSerializer.Deserialize<AppUser[]>(usersJson);
+
+            var roles = new List<AppRole>
+            {
+                new AppRole{Name = "Member"},
+                new AppRole{Name = "Admin"},
+                new AppRole{Name = "Moderator"}
+            };
+
+            foreach(var role in roles)
+            {
+                var roleExists = await roleManager.RoleExistsAsync(role.Name);
+                if (!roleExists)
+                {
+                    await roleManager.CreateAsync(role);
+                }
+            }
 
             if (users is not {Length: > 0})
             return;
@@ -79,6 +100,19 @@ namespace VZAggregator.Data
                 user.BirthDate = user.BirthDate?.ToUniversalTime();
                 user.Updated = user.Updated?.ToUniversalTime();
                 user.LastTrip = user.LastTrip?.ToUniversalTime();
+
+                var result = await userManager.CreateAsync(user, "pass");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, "Member");
+                }
+            }
+
+            var admin = new AppUser { UserName = "admin" };
+            var adminResult = await userManager.CreateAsync(admin, "pass");
+            if (adminResult.Succeeded)
+            {
+                await userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" });
             }
 
             await context.Users.AddRangeAsync(users);

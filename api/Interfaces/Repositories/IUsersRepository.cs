@@ -1,3 +1,4 @@
+using api.Models;
 using VZAggregator.Models;
 
 namespace VZAggregator.Interfaces
@@ -7,22 +8,22 @@ namespace VZAggregator.Interfaces
       ///<summary>
       /// Gets user
       ///</summary>
-      Task<User> GetUserAsync(int id);
+      Task<AppUser> GetUserAsync(int id);
 
       ///<summary>
       /// Gets categories list
       ///</summary>
-      Task<User[]> GetUsersAsync();
+      Task<AppUser[]> GetUsersAsync();
 
       ///<summary>
       /// Creates user
       ///</summary>
-      Task<bool> CreateAsync(User cateogory);
+      Task<bool> CreateAsync(AppUser cateogory);
 
       ///<summary>
       /// Updates user
       ///</summary>
-      Task<bool> UpdateAsync(User cateogory);
+      Task<bool> UpdateAsync(AppUser cateogory);
 
       ///<summary>
       /// Deletes user

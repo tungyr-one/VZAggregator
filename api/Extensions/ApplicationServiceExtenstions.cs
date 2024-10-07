@@ -1,3 +1,6 @@
+using api.Helpers;
+using api.Interfaces;
+using api.Services;
 using Microsoft.EntityFrameworkCore;
 using VZAggregator.Data;
 using VZAggregator.Data.Repositories;
@@ -25,6 +28,8 @@ namespace VZAggregator.Models.Extensions
             services.AddScoped<ITripsService, TripsService>();
             services.AddScoped<ITripsRepository, TripsRepository>();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<LogUserActivity>();
             services.AddDbContext<DataContext>(options=>
             {
                 // options.UseNpgsql(config.GetConnectionString("DefaultConnection"));

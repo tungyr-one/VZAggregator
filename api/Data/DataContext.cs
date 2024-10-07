@@ -1,16 +1,21 @@
+using api.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using VZAggregator.Models;
 
 namespace VZAggregator.Data
 {
-    public class DataContext:DbContext
+    public class DataContext:IdentityDbContext<AppUser, AppRole, int, 
+    IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>,IdentityRoleClaim<int>, 
+    IdentityUserToken<int>>
     {
         private int _idsStartValue = 7;
         //Server=localhost;Database=master;Trusted_Connection=True;
 
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<AppUser> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Carrier> Carriers { get; set; }
         public DbSet<Transport> Transports { get; set; }
@@ -36,12 +41,19 @@ namespace VZAggregator.Data
             .Property(o => o.OrderPrice)
             .HasColumnType("decimal(18, 4)");
 
-            modelBuilder.Entity<User>()
-            .Property(c => c.UserId)
-            // .UseIdentityColumn(_idsStartValue)
+            modelBuilder.Entity<AppUser>()
+            .HasMany(ur => ur.UserRoles)
+            .WithOne(u => u.User)
+            .HasForeignKey(ur => ur.UserId)
             .IsRequired();
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<AppRole>()
+                .HasMany(ur => ur.UserRoles)
+                .WithOne(u => u.Role)
+                .HasForeignKey(ur => ur.RoleId)
+                .IsRequired();
+
+            modelBuilder.Entity<AppUser>()
             .Property(o => o.Discount)
             .HasColumnType("decimal(18, 4)");  
 

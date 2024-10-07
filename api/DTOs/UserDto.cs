@@ -20,6 +20,7 @@ namespace VZAggregator.DTOs
         public bool? IsSubscriptionActive { get; set; }
         public int? SubscriptionTripsCount { get; set; }
         public string? Notes { get; set; }
+        public string Token { get; set; }
 
         public IList<Order> Orders { get; set; }
     }

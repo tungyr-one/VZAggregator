@@ -16,9 +16,9 @@ namespace VZAggregator.Controllers
             _addresssService = addresssService;
         }
 
-            ///<summary>
-            /// Gets address from service, if null returns NotFound
-            ///</summary>
+        ///<summary>
+        /// Gets address from service, if null returns NotFound
+        ///</summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<AddressDto>> GetAddress(int id)
         {

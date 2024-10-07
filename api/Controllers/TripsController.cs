@@ -1,5 +1,6 @@
 using api.DTOs;
 using api.Helpers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using VZAggregator.DTOs;
 using VZAggregator.Interfaces.Repositories;
@@ -8,6 +9,7 @@ namespace VZAggregator.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Policy = "ShouldBeAdminOrModerator")]
     public class TripsController : ControllerBase
     {
         private readonly ITripsService _tripsService;
@@ -16,6 +18,18 @@ namespace VZAggregator.Controllers
         {
             _tripsService = tripsService;
         }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminOnly()
+        {
+            return Ok();
+        }
+
+        // [Authorize(Policy = "RequireAdminOnly")]
+        // public ActionResult DeleteUser()
+        // {
+        //     //Your code here
+        // }
 
         ///<summary>
         /// Gets trip from service, if null returns NotFound

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Models;
 using AutoMapper;
 using VZAggregator.DTOs;
 using VZAggregator.Models;
@@ -12,7 +13,7 @@ namespace VZAggregator.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<AppUser, UserDto>().ReverseMap();
             CreateMap<Address, AddressDto>().ReverseMap();
             CreateMap<Carrier, CarrierDto>().ReverseMap();
             CreateMap<Order, OrderDto>().ReverseMap();

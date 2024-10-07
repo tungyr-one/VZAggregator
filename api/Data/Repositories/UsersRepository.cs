@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using VZAggregator.Models;
 using VZAggregator.Interfaces;
+using api.Models;
 
 namespace VZAggregator.Data.Repositories
 {
@@ -13,27 +14,27 @@ namespace VZAggregator.Data.Repositories
             _context = context;
         }
 
-       public async Task<User> GetUserAsync(int id)
+       public async Task<AppUser> GetUserAsync(int id)
         {
             return await _context.Users.AsNoTracking()
             .Include(u => u.Addresses)           
-            .FirstOrDefaultAsync(u => u.UserId == id);
+            .FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<User[]> GetUsersAsync()
+        public async Task<AppUser[]> GetUsersAsync()
         {
             var query = _context.Users.Include(d => d.Addresses).AsQueryable();
             return await query.AsNoTracking().ToArrayAsync();
         }
 
-        public async Task<bool> CreateAsync(User user)
+        public async Task<bool> CreateAsync(AppUser user)
         {
            _context.Users.
            Add(user).State = EntityState.Added;
            return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<bool> UpdateAsync(User user)
+        public async Task<bool> UpdateAsync(AppUser user)
         {            
            _context.Entry(user).State = EntityState.Modified;
            return await _context.SaveChangesAsync() > 0;

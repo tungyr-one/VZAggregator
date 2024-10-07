@@ -1,11 +1,15 @@
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using VZAggregator.Models;
 
-namespace VZAggregator.Models
+namespace api.Models
 {
-    public class User
+    public class AppUser:IdentityUser<int>
     {
-        [Key]
-        public int UserId { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
         public string? Name { get; set; }
@@ -24,5 +28,6 @@ namespace VZAggregator.Models
         public string? Notes { get; set; }
 
         public IList<Order> Orders { get; set; }
+        public ICollection<AppUserRole> UserRoles { get; set; }
     }
 }
