@@ -9,7 +9,6 @@ namespace VZAggregator.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Policy = "ShouldBeAdminOrModerator")]
     public class TripsController : ControllerBase
     {
         private readonly ITripsService _tripsService;

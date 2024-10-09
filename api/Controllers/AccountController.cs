@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.DTOs;
 using api.Interfaces;
 using api.Models;
@@ -14,6 +10,8 @@ using VZAggregator.DTOs;
 namespace api.Controllers
 {
     // public class AccountController:BaseApiController
+    [ApiController]
+    [Route("api/[controller]")]
     public class AccountController:ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
@@ -30,25 +28,36 @@ namespace api.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await UserExists(registerDto.Username)) return BadRequest("Username has already taken");
+            if (await UserExists(registerDto.Username)) return BadRequest(new { message = "Username has already taken"});
             
             var user = _mapper.Map<AppUser>(registerDto);
 
-            user.UserName = registerDto.Username.ToLower();
+            user.Name = registerDto.Username.ToLower();
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            if(!result.Succeeded) return BadRequest(result.Errors);
+
+            if(!result.Succeeded)
+            {
+                var errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
+                return BadRequest(new { Message = errorMessages });
+            } 
 
             var roleResult = await _userManager.AddToRoleAsync(user, "Member");
 
-            if(!roleResult.Succeeded) return BadRequest(result.Errors);
-
-            return new UserDto
+            if(!roleResult.Succeeded)            
             {
-                Name = user.Name,
-                Token = await _tokenService.CreateToken(user)
-            };
+                var errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
+                return BadRequest(new { Message = errorMessages });
+            } 
+
+            return Ok(new { message = "Registration successful"});
+
+            // return new UserDto
+            // {
+            //     Name = user.Name,
+            //     Token = await _tokenService.CreateToken(user)
+            // };
         }
 
         [HttpPost("login")]
@@ -57,11 +66,11 @@ namespace api.Controllers
             var user = await _userManager.Users
             .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
 
-            if (user == null) return Unauthorized("Invalid username");
+            if (user == null) return Unauthorized(new { message = "Invalid username" });
             
             var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 
-            if(!result) return Unauthorized("Invalid password");
+            if(!result) return Unauthorized(new { message = "Invalid password" });
 
             return new UserDto
             {

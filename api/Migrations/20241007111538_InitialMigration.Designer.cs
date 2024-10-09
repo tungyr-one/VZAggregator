@@ -12,7 +12,7 @@ using VZAggregator.Data;
 namespace VZAggregator.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241007110822_InitialMigration")]
+    [Migration("20241007111538_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

@@ -52,7 +52,7 @@ namespace api.Extensions
 
             services.AddAuthorization(opt =>
             {
-                opt.AddPolicy("RequiredAdminRole", policy => policy.RequireRole("Admin"));
+                opt.AddPolicy("ShouldBeAdminOrModerator", policy => policy.RequireRole("Admin", "Moderator"));
             });
 
             return services;

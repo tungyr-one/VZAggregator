@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize(Policy = "ShouldBeAdminOrModerator")]
    public class AdminController: ControllerBase
     {
       private readonly UserManager<AppUser> _userManager;
