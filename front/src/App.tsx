@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import TripList from './components/trip-list/TripList';
+import TripList from './components/triplist/TripList';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import RegistrationForm from './components/register/register/register.component';
-import LoginForm from './components/login/login.component';
+import Register from './components/register/register/Register';
+import Login from './components/login/Login';
 import { UserProvider } from './contexts/UserContext';
-import Navbar from './components/navbar/navbar';
+import Navbar from './components/navbar/Navbar';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -17,8 +17,8 @@ const App: React.FC = () => {
         <Navbar />
           <Routes>
             <Route path="/" element={<TripList />} />
-            <Route path="/register" element={<RegistrationForm />} />
-            <Route path="/login" element={<LoginForm />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </BrowserRouter>
       </UserProvider>

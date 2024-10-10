@@ -66,7 +66,6 @@ const TripList: React.FC = () => {
 
       <h1>Trips</h1>
 
-      {/* Filter */}
       <div>
         <label>Search by carrier name: </label>
         <input
@@ -90,7 +89,6 @@ const TripList: React.FC = () => {
         </select>
       </div>
 
-      {/* Sort order */}
       <div>
         <label>Sort order: </label>
         <select value={params.sortOrder} onChange={handleSortOrderChange}>
@@ -99,7 +97,6 @@ const TripList: React.FC = () => {
         </select>
       </div>
 
-      {/* Loading/Error Handling */}
       {loading && <div>Loading...</div>}
       {error && <div>{error}</div>}
 

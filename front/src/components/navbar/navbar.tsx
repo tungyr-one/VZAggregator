@@ -1,6 +1,5 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './navbar.css';
+import './Navbar.css';
 import { useUser } from '../../contexts/UserContext';
 
 const Navbar: React.FC = () => {
@@ -8,18 +7,9 @@ const Navbar: React.FC = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // Set the username to null or clear the user session
-        // useUser(null);
-        
-        // Optionally, you can also clear any token or session stored
-        // localStorage.removeItem('token');
-        // sessionStorage.removeItem('userSession');
-        
-        // Redirect the user to the homepage after logout
+        setUser(null);
         navigate('/');
     }
-
-
 
   return (
     <nav className="navbar">
@@ -34,7 +24,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
-function setUser(arg0: { username: any; }) {
-    throw new Error('Function not implemented.');
-}
 

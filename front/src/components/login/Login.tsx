@@ -10,7 +10,7 @@ interface LoginData {
   password: string;
 }
 
-const LoginForm: React.FC = () => {
+const Login: React.FC = () => {
   const { setUser } = useUser();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
@@ -95,4 +95,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default Login;

@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 interface UserContextType {
   user: { username: string } | null;
-  setUser: (user: { username: string }) => void;
+  setUser: (user: { username: string } | null) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);

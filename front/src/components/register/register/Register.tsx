@@ -13,7 +13,7 @@ interface RegistrationData {
   city: string;
 }
 
-const RegistrationForm: React.FC = () => {
+const Register: React.FC = () => {
   // State for form fields
   const [formData, setFormData] = useState<RegistrationData>({
     username: 'vasya',
@@ -174,4 +174,4 @@ const RegistrationForm: React.FC = () => {
   );
 };
 
-export default RegistrationForm;
+export default Register;
