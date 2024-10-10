@@ -32,7 +32,6 @@ namespace VZAggregator.Models.Extensions
             services.AddScoped<LogUserActivity>();
             services.AddDbContext<DataContext>(options=>
             {
-                // options.UseNpgsql(config.GetConnectionString("DefaultConnection"));
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
 

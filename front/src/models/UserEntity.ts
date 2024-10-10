@@ -1,9 +1,7 @@
 export interface AddressEntity {
-    // Define the properties of the AddressEntity model here
   }
   
   export interface OrderEntity {
-    // Define the properties of the OrderEntity model here
   }
   
   export enum SubscriptionPeriod {

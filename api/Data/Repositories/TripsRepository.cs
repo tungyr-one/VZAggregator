@@ -22,15 +22,6 @@ namespace VZAggregator.Data.Repositories
             .FirstOrDefaultAsync(x => x.TripId == id);
         }
 
-
-// {
-//   "offset": 0,
-//   "pageSize": 5,
-//   "filterBy": "",
-//   "sortBy": "name",
-//   "sortOrder": "asc"
-// }
-
         public async Task<Trip[]> GetTripsAsync(UserParams userParams)
         {
 

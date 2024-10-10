@@ -9,7 +9,6 @@ using VZAggregator.DTOs;
 
 namespace api.Controllers
 {
-    // public class AccountController:BaseApiController
     [ApiController]
     [Route("api/[controller]")]
     public class AccountController:ControllerBase
@@ -52,12 +51,6 @@ namespace api.Controllers
             } 
 
             return Ok(new { message = "Registration successful"});
-
-            // return new UserDto
-            // {
-            //     Name = user.Name,
-            //     Token = await _tokenService.CreateToken(user)
-            // };
         }
 
         [HttpPost("login")]

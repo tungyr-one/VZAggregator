@@ -24,12 +24,6 @@ namespace VZAggregator.Controllers
             return Ok();
         }
 
-        // [Authorize(Policy = "RequireAdminOnly")]
-        // public ActionResult DeleteUser()
-        // {
-        //     //Your code here
-        // }
-
         ///<summary>
         /// Gets trip from service, if null returns NotFound
         ///</summary>

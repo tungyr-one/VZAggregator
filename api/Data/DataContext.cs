@@ -10,8 +10,6 @@ namespace VZAggregator.Data
     IdentityUserClaim<int>, AppUserRole, IdentityUserLogin<int>,IdentityRoleClaim<int>, 
     IdentityUserToken<int>>
     {
-        private int _idsStartValue = 7;
-        //Server=localhost;Database=master;Trusted_Connection=True;
 
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -30,7 +28,6 @@ namespace VZAggregator.Data
 
             modelBuilder.Entity<Order>()
             .Property(c => c.OrderId)
-            // .UseIdentityColumn(_idsStartValue)
             .IsRequired();
             
             modelBuilder.Entity<Order>()
@@ -59,7 +56,6 @@ namespace VZAggregator.Data
 
             modelBuilder.Entity<Carrier>()
             .Property(c => c.CarrierId)
-            // .UseIdentityColumn(_idsStartValue)
             .IsRequired(); 
 
             modelBuilder.Entity<Carrier>()
@@ -71,18 +67,15 @@ namespace VZAggregator.Data
 
             modelBuilder.Entity<Address>()
             .Property(c => c.AddressId)
-            // .UseIdentityColumn(_idsStartValue)
             .IsRequired();   
 
             modelBuilder.Entity<Transport>()
             .Property(c => c.TransportId)
-            // .UseIdentityColumn(_idsStartValue)
             .IsRequired();  
 
             
             modelBuilder.Entity<Trip>()
             .Property(c => c.TripId)
-            // .UseIdentityColumn(_idsStartValue)
             .IsRequired();
 
             modelBuilder.Entity<Trip>()
