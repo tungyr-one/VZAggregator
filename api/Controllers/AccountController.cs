@@ -19,9 +19,9 @@ namespace api.Controllers
 
         public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, IMapper mapper)
         {
-            this._mapper = mapper;
-            this._userManager = userManager;
-            this._tokenService = tokenService;
+            _mapper = mapper;
+            _userManager = userManager;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
@@ -34,7 +34,6 @@ namespace api.Controllers
             user.Name = registerDto.Username.ToLower();
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
-
 
             if(!result.Succeeded)
             {
@@ -50,7 +49,10 @@ namespace api.Controllers
                 return BadRequest(new { Message = errorMessages });
             } 
 
-            return Ok(new { message = "Registration successful"});
+            var newUser = _mapper.Map<UserDto>(user);
+            newUser.Token = await _tokenService.CreateToken(user);
+
+            return Ok(newUser);
         }
 
         [HttpPost("login")]
@@ -65,11 +67,31 @@ namespace api.Controllers
 
             if(!result) return Unauthorized(new { message = "Invalid password" });
 
-            return new UserDto
+            var loggedUser = _mapper.Map<UserDto>(user);
+            loggedUser.Token = await _tokenService.CreateToken(user);
+
+            return Ok(loggedUser);
+        }
+
+        [HttpDelete("delete/{name}")]
+        public async Task<ActionResult<UserDto>> Delete(string name)
+        {
+            name = name.ToLower();
+
+            var user = await _userManager.Users
+            .SingleOrDefaultAsync(x => x.UserName == name);
+
+            if (user == null) return BadRequest(new { message = "No such user" });
+
+            var result = await _userManager.DeleteAsync(user);
+
+            if(!result.Succeeded)
             {
-                Name = user.Name,
-                Token = await _tokenService.CreateToken(user)
-            };
+                var errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
+                return BadRequest(new { Message = errorMessages });
+            } 
+
+            return Ok();
         }
 
         private async Task<bool> UserExists(string username)

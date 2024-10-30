@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import { useUser } from '../../contexts/UserContext';
+import { User } from '../../models/User';
 
 const Navbar: React.FC = () => {
     const { user, setUser } = useUser();
@@ -18,7 +19,7 @@ const Navbar: React.FC = () => {
           </ul>
           <ul className="navbar-links right-side">
               {user ? (
-                  <li><Link to="/account" className="account-name">{user.username}</Link></li>
+                  <li><Link to="/account" className="account-name">{user.name}</Link></li>
               ) 
               :               
               (

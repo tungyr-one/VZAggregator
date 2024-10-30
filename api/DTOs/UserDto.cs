@@ -7,7 +7,8 @@ namespace VZAggregator.DTOs
         public int UserId { get; set; }
         public DateTime? Created { get; set; }
         public DateTime? Updated { get; set; }
-        public string? Name { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
         public string TelegramNick { get; set; }
         public DateTime? BirthDate { get; set; }
         public DateTime? LastTrip { get; set; }

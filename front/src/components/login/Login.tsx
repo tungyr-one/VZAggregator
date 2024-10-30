@@ -41,7 +41,8 @@ const Login: React.FC = () => {
       if (response.status === 200) {
         setSuccess(true);
         setError(null);
-        setUser({ username: formData.username });
+        setUser(response.data);
+        console.log(response.data)
         toast.success('Login successful!');
         setTimeout(() => {
           navigate('/');

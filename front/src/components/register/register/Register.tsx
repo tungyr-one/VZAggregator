@@ -75,7 +75,7 @@ const Register: React.FC = () => {
 
       if (response.status === 200) {
         setSuccess(true);
-        setUser({ username: formData.username });
+        setUser(response.data);
         toast.success('Register successful!');
         setTimeout(() => {
           navigate('/');

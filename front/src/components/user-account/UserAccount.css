@@ -1,0 +1,17 @@
+.user-account {
+    padding: 20px;
+  }
+  
+  .user-account h3 {
+    margin-top: 20px;
+  }
+  
+  .user-account ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .user-account button {
+    margin-top: 10px;
+  }
+  

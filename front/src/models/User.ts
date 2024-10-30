@@ -10,7 +10,7 @@ export interface AddressEntity {
     Yearly = 2
   }
   
-  export interface UserEntity {
+  export interface User {
     userId: number;
     created: string;
     updated?: string;

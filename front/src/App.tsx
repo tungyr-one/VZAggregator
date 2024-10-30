@@ -7,6 +7,7 @@ import Login from './components/login/Login';
 import { UserProvider } from './contexts/UserContext';
 import Navbar from './components/navbar/Navbar';
 import 'react-toastify/dist/ReactToastify.css';
+import UserAccount from './components/user-account/UserAccount';
 
 const App: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const App: React.FC = () => {
             <Route path="/" element={<TripList />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/account" element={<UserAccount />} />
           </Routes>
         </BrowserRouter>
       </UserProvider>
