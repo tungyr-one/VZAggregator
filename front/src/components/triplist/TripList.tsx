@@ -19,7 +19,6 @@ const TripList: React.FC = () => {
   });
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { user } = useUser();
 
   useEffect(() => {
     fetchTrips();
@@ -56,13 +55,6 @@ const TripList: React.FC = () => {
         <div>
         <ToastContainer />
       </div>
-      <h1>{user ? `Welcome, ${user.username}` : 'Please log in'}</h1>
-        <Link to="/login">
-          <button>Login</button>
-        </Link>
-        <Link to="/register">
-          <button>Register</button>
-        </Link>
 
       <h1>Trips</h1>
 

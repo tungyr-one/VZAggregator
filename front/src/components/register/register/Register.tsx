@@ -4,6 +4,7 @@ import { useUser } from '../../../contexts/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './Register.css'
 
 interface RegistrationData {
   username: string;
@@ -95,82 +96,84 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div>
-      <div>
-        <ToastContainer />
-      </div>
-      <h2>Register</h2>
-      {success && <div style={{ color: 'green' }}>Registration successful!</div>}
-      
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label>Password:</label>
-          <input
-            type={showPassword ? "text" : "password"}
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label>Confirm Password:</label>
-          <input
-            type={showPassword ? "text" : "password"}
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div>
-          <label>City:</label>
-          <input
-            type="text"
-            name="city"
-            value={formData.city}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-      <div>
+    <div className="registration-container">
+    <ToastContainer />
+    <h2>Register</h2>
+    {success && <div style={{ color: 'green' }}>Registration successful!</div>}
+    
+    <form onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label>Username:</label>
         <input
-          type="checkbox"
-          id="showPassword"
-          checked={showPassword}
-          onChange={() => setShowPassword(!showPassword)}
+          type="text"
+          name="username"
+          value={formData.username}
+          onChange={handleInputChange}
+          required
         />
-        <label htmlFor="showPassword">Show Password</label>
+      </div>
+  
+      <div className="form-group">
+        <label>Email:</label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          required
+        />
       </div>
 
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+      <div className="form-group">
+        <label>City:</label>
+        <input
+          type="text"
+          name="city"
+          value={formData.city}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+  
+      <div className="form-group">
+        <label>Password:</label>
+        <input
+          type={showPassword ? "text" : "password"}
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+  
+      <div className="form-group">
+        <label>Confirm Password:</label>
+        <input
+          type={showPassword ? "text" : "password"}
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+    
+      <div className="form-group checkbox-group">
+        <div>
+          <input
+            type="checkbox"
+            id="showPassword"
+            checked={showPassword}
+            onChange={() => setShowPassword(!showPassword)}
+          />
+          <label htmlFor="showPassword">Show Password</label>
+        </div>
+
+      </div>
+  
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  
   );
 };
 

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../../contexts/UserContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './Login.css';
 
 interface LoginData {
   username: string;
@@ -63,34 +64,45 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="login-container">
       	<div>
         <ToastContainer />
       </div>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Username"
-          value={formData.username}
-          onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-        />
-        <input
-          type={showPassword ? "text" : "password"}
-          placeholder="Password"
-          value={formData.password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-        />
-        <button type="submit">Login</button>
-      </form>
-      <div>
+
+        <div className='form-group'>
+            <input
+              type="text"
+              placeholder="Username"
+              value={formData.username}
+              onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+          />
+        </div>
+
+        <div className='form-group'>
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          />
+        </div>
+
+        <div>
         <input
           type="checkbox"
           id="showPassword"
           checked={showPassword}
           onChange={() => setShowPassword(!showPassword)}
         />
-        <label htmlFor="showPassword">Show Password</label>
       </div>
+      <label htmlFor="showPassword">Show Password</label>
+      <div>
+
+      </div>
+        <button type="submit">Login</button>
+      </form>
+
   </div>
   );
 };

@@ -6,7 +6,6 @@ import Register from './components/register/register/Register';
 import Login from './components/login/Login';
 import { UserProvider } from './contexts/UserContext';
 import Navbar from './components/navbar/Navbar';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App: React.FC = () => {

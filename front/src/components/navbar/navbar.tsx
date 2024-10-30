@@ -3,7 +3,7 @@ import './Navbar.css';
 import { useUser } from '../../contexts/UserContext';
 
 const Navbar: React.FC = () => {
-    const { setUser } = useUser();
+    const { user, setUser } = useUser();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -11,17 +11,26 @@ const Navbar: React.FC = () => {
         navigate('/');
     }
 
-  return (
-    <nav className="navbar">
-      <ul className="navbar-links">
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/login">Login</Link></li>
-        <li><Link to="/register">Register</Link></li>
-        <li><Link to="/" onClick={handleLogout}>Sign Out</Link></li>
-      </ul>
-    </nav>
+    return (
+      <nav className="navbar">
+          <ul className="navbar-links">
+              <li><Link to="/">Home</Link></li>
+          </ul>
+          <ul className="navbar-links right-side">
+              {user ? (
+                  <li><Link to="/account" className="account-name">{user.username}</Link></li>
+              ) 
+              :               
+              (
+                  <>
+                      <li><Link to="/login">Login</Link></li>
+                      <li><Link to="/register">Register</Link></li>
+                  </>
+              )}
+              {user && <li><Link to="/" onClick={handleLogout}>Sign Out</Link></li>}
+          </ul>
+      </nav>
   );
 };
 
 export default Navbar;
-
