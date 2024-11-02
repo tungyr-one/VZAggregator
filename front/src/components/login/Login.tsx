@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios, { Axios, AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../contexts/UserContext';
+import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
@@ -12,7 +12,7 @@ interface LoginData {
 }
 
 const Login: React.FC = () => {
-  const { setUser } = useUser();
+  const { setCurrentUser: setUser } = useCurrentUser();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
@@ -24,11 +24,6 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -39,10 +34,11 @@ const Login: React.FC = () => {
       });
 
       if (response.status === 200) {
+        // console.log("rolename", response.data.userRoles[0]);
         setSuccess(true);
         setError(null);
         setUser(response.data);
-        console.log(response.data)
+        localStorage.setItem('user', JSON.stringify(response.data));
         toast.success('Login successful!');
         setTimeout(() => {
           navigate('/');

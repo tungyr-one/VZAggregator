@@ -14,10 +14,12 @@ namespace api.Controllers
     public class AccountController:ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
-      private readonly ITokenService _tokenService;
+        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
 
-        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, IMapper mapper)
+        public AccountController(UserManager<AppUser> userManager, 
+                                    ITokenService tokenService, 
+                                    IMapper mapper)
         {
             _mapper = mapper;
             _userManager = userManager;
@@ -31,7 +33,7 @@ namespace api.Controllers
             
             var user = _mapper.Map<AppUser>(registerDto);
 
-            user.Name = registerDto.Username.ToLower();
+            user.UserName = registerDto.Username.ToLower();
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
@@ -68,12 +70,14 @@ namespace api.Controllers
             if(!result) return Unauthorized(new { message = "Invalid password" });
 
             var loggedUser = _mapper.Map<UserDto>(user);
+            loggedUser.UserRoles = await _userManager.GetRolesAsync(user);
+
             loggedUser.Token = await _tokenService.CreateToken(user);
 
             return Ok(loggedUser);
         }
 
-        [HttpDelete("delete/{name}")]
+        [HttpDelete("{name}")]
         public async Task<ActionResult<UserDto>> Delete(string name)
         {
             name = name.ToLower();

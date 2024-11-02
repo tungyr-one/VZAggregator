@@ -1,6 +1,7 @@
 using api.Helpers;
 using api.Interfaces;
 using api.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VZAggregator.Data;
 using VZAggregator.Data.Repositories;
@@ -34,7 +35,7 @@ namespace VZAggregator.Models.Extensions
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
-
+            
             return services;
         }   
     } 

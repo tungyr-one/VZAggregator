@@ -12,8 +12,8 @@ using VZAggregator.Data;
 namespace VZAggregator.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241030200024_ChangedUserNameToObligatoryProperty")]
-    partial class ChangedUserNameToObligatoryProperty
+    [Migration("20241101222414_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -368,9 +368,6 @@ namespace VZAggregator.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)

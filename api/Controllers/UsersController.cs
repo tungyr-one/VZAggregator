@@ -54,7 +54,14 @@ namespace VZAggregator.Controllers
         /// Updates user 
         ///</summary>
         [HttpPut("{id}")]
-        public Task Update(int id, UserDto userUpdate) => _usersService.UpdateAsync(id, userUpdate);
+        public async Task<ActionResult<UserDto>> Update(int id, UserUpdateDto userUpdate)
+        {
+            return await _usersService.UpdateAsync(id, userUpdate) switch
+            {
+                null => BadRequest(),
+                var user => Ok(user)
+            };
+        }
 
         ///<summary>
         /// Deletes user

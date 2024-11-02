@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useUser } from '../../../contexts/UserContext';
+import { useCurrentUser } from '../../../contexts/CurrentUserContext';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,7 +23,7 @@ const Register: React.FC = () => {
     confirmPassword: 'Passw0rd',
     city: 'NS'
   });
-  const { setUser } = useUser();
+  const { setCurrentUser: setUser } = useCurrentUser();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 

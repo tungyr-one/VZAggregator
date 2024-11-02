@@ -4,7 +4,7 @@ import './TripList.css';
 import { Link } from 'react-router-dom';
 import { Trip } from '../../models/Trip';
 import { Pagination } from '../../models/Pagination';
-import { useUser } from '../../contexts/UserContext';
+import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

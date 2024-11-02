@@ -101,19 +101,21 @@ namespace VZAggregator.Data
                 user.Updated = user.Updated?.ToUniversalTime();
                 user.LastTrip = user.LastTrip?.ToUniversalTime();
 
-                var result = await userManager.CreateAsync(user, "pass");
+                var result = await userManager.CreateAsync(user, "Passw0rd");
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, "Member");
                 }
             }
 
-            var admin = new AppUser { UserName = "admin" };
-            var adminResult = await userManager.CreateAsync(admin, "pass");
+            var admin = new AppUser { UserName = "admin", Email = "admin@admin.com" };
+            var adminResult = await userManager.CreateAsync(admin, "Passw0rd");
             if (adminResult.Succeeded)
             {
                 await userManager.AddToRolesAsync(admin, new[] { "Admin", "Moderator" });
+                users.Append(admin);
             }
+
 
             await context.Users.AddRangeAsync(users);
             await context.SaveChangesAsync();

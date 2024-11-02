@@ -22,7 +22,7 @@ namespace VZAggregator.Interfaces
         ///<summary>
         /// Updates user
         ///</summary>
-        Task<bool> UpdateAsync(int id, UserDto user);
+        Task<UserDto> UpdateAsync(int id, UserUpdateDto user);
 
         ///<summary>
         /// Deletes user

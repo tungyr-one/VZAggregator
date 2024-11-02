@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import './UserAccount.css';
+import { Link, useNavigate } from 'react-router-dom';
+import './AdminAccount.css';
 
-const UserAccount: React.FC = () => {
+const AdminAccount: React.FC = () => {
   const { currentUser: user, setCurrentUser: setUser } = useCurrentUser();
-  const [activeTab, setActiveTab] = useState("User Info");
+  const [activeTab, setActiveTab] = useState("Admin Info");
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState({
@@ -20,6 +20,7 @@ const UserAccount: React.FC = () => {
 
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({ userName: user?.userName, email: user?.email });
+  const [userDeletionFormData, setUserDeletionFormData] = useState({ userName: user?.userName});
 
   useEffect(() => {
     // Load data if necessary
@@ -44,7 +45,7 @@ const UserAccount: React.FC = () => {
     }
   };
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteSelfAccount = async () => {
     try {
       const response = await axios.delete(`http://localhost:5146/api/users/${user?.id}`);
       if (response.status === 200) {
@@ -57,14 +58,29 @@ const UserAccount: React.FC = () => {
     }
   };
 
+  const handleDeleteUsersAccount = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:5146/api/account/${userDeletionFormData.userName}`);
+      if (response.status === 200) {
+        toast.success('Users account deleted successfully.');
+      }
+    } catch (error) {
+      toast.error('Failed to delete account. Please try again.');
+    }
+  };
+
+  function FetchUser(event: FormEvent<HTMLFormElement>): void {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <div className="user-account-page">
       <ToastContainer />
 
       <aside className="sidebar">
         <ul>
-          <li onClick={() => setActiveTab("User Info")} className={activeTab === "User Info" ? "active" : ""}>User Info</li>
-          <li onClick={() => setActiveTab("Balance")} className={activeTab === "Balance" ? "active" : ""}>Account Balance</li>
+          <li onClick={() => setActiveTab("Admin Info")} className={activeTab === "Admin Info" ? "active" : ""}>Admin Info</li>
+          <li onClick={() => setActiveTab("Manage Users")} className={activeTab === "Manage Users" ? "active" : ""}>Manage Users</li>
           <li onClick={() => setActiveTab("Discounts")} className={activeTab === "Discounts" ? "active" : ""}>Discounts</li>
           <li onClick={() => setActiveTab("Orders")} className={activeTab === "Orders" ? "active" : ""}>Order History</li>
         </ul>
@@ -73,7 +89,7 @@ const UserAccount: React.FC = () => {
       <main className="content">
         <h2>{activeTab}</h2>
 
-        {activeTab === "User Info" && (
+        {activeTab === "Admin Info" && (
           <div className="user-info">
             {editMode ? (
               <>
@@ -91,14 +107,25 @@ const UserAccount: React.FC = () => {
                 <button className="edit-button" onClick={() => setEditMode(true)}>Edit</button>
               </>
             )}
-             <button onClick={handleDeleteAccount} className="delete-account-btn">Delete Account</button>
+             <button onClick={handleDeleteSelfAccount} className="delete-account-btn">Delete Account</button>
           </div>
         )}
 
-        {activeTab === "Balance" && (
-          <div className="account-balance">
-            <h3>Balance</h3>
-            <p>${userData.balance}</p>
+        {activeTab === "Manage Users" && (
+          <div className="manage-users">
+            <h3>Get users info</h3>
+
+            <form onSubmit={handleDeleteUsersAccount}>
+              <div className='form-group'>
+                <input type="text"
+                placeholder="userName"
+                value={userDeletionFormData.userName}
+                onChange={(e) => setUserDeletionFormData({...userDeletionFormData, userName: e.target.value})} />
+              </div>
+              {/* <button onClick={FetchUser}>Find</button> */}
+            <button type='submit' className='delete-account-btn'>Delete account</button>
+            </form>
+            
           </div>
         )}
 
@@ -125,4 +152,4 @@ const UserAccount: React.FC = () => {
   );
 };
 
-export default UserAccount;
+export default AdminAccount;
