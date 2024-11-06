@@ -6,9 +6,14 @@ namespace VZAggregator.Interfaces
     public interface IUsersRepository
     {
       ///<summary>
-      /// Gets user
+      /// Gets user by id
       ///</summary>
       Task<AppUser> GetUserAsync(int id);
+
+      ///<summary>
+      /// Gets user by name
+      ///</summary>
+      Task<AppUser> GetUserByNameAsync(string userName);
 
       ///<summary>
       /// Gets categories list

@@ -73,7 +73,7 @@ button {
   transition: background-color 0.3s;
   width: min-content;
   margin: 10px;
-  display: block;
+  display: inline;
 }
 
 button:hover {
@@ -94,6 +94,12 @@ button:hover {
   background-color: darkred;
 }
 
-.form-group input{
-  margin: auto
+.admin-form-group {
+  display:  inline;
+  align-items: center;
+}
+
+.admin-form-group input{
+  margin: auto;
+  margin-left: 20px;
 }

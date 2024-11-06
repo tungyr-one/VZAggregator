@@ -27,6 +27,12 @@ namespace VZAggregator.Services
             return _mapper.Map<UserDto>(user);
         }
 
+        public async Task<UserDto> GetUserByNameAsync(string userName)
+        {
+            var user = await _usersRepository.GetUserByNameAsync(userName);
+            return _mapper.Map<UserDto>(user);
+        }
+
         public async Task<IEnumerable<UserDto>> GetUsersAsync()
         {
             var users = await _usersRepository.GetUsersAsync();

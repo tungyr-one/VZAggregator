@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios, { Axios, AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface LoginData {
   username: string;
@@ -12,7 +12,11 @@ interface LoginData {
 }
 
 const Login: React.FC = () => {
-  const { setCurrentUser: setUser } = useCurrentUser();
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  // const [username, setUsername] = useState('');
+  // const [password, setPassword] = useState('');
+
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
@@ -21,10 +25,9 @@ const Login: React.FC = () => {
     password: 'Passw0rd',
   });
 
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -34,11 +37,12 @@ const Login: React.FC = () => {
       });
 
       if (response.status === 200) {
-        // console.log("rolename", response.data.userRoles[0]);
+        console.log("rolename login", response.data.userRoles[0]);
         setSuccess(true);
         setError(null);
-        setUser(response.data);
-        localStorage.setItem('user', JSON.stringify(response.data));
+        // setUser(response.data);
+        login(response.data);
+        // localStorage.setItem('user', JSON.stringify(response.data));
         toast.success('Login successful!');
         setTimeout(() => {
           navigate('/');
@@ -65,7 +69,7 @@ const Login: React.FC = () => {
       	<div>
         <ToastContainer />
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleLogin}>
 
         <div className='form-group'>
             <input

@@ -23,6 +23,7 @@ namespace api.Extensions
                 opt.Password.RequiredLength = 6;
                 // opt.Password.RequiredUniqueChars = 1;
 
+                // opt.Lockout.I
                 opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 opt.Lockout.MaxFailedAccessAttempts = 5;
                 opt.Lockout.AllowedForNewUsers = true;

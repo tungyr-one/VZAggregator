@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import './UserAccount.css';
+import { useAuth } from '../../contexts/AuthContext';
 
 const UserAccount: React.FC = () => {
-  const { currentUser: user, setCurrentUser: setUser } = useCurrentUser();
+  const {user, login, logout, logIt} = useAuth();
   const [activeTab, setActiveTab] = useState("User Info");
   const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ const UserAccount: React.FC = () => {
   const [formData, setFormData] = useState({ userName: user?.userName, email: user?.email });
 
   useEffect(() => {
-    // Load data if necessary
+    logIt('hello react!!!!!!!!!!!!!!')
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +36,7 @@ const UserAccount: React.FC = () => {
     try {
       const response = await axios.put(`http://localhost:5146/api/users/${user?.id}`, formData);
       if (response.status === 200) {
-        setUser(response.data);
+        login(response.data);
         toast.success('Update successful!');
       }
     } catch (error) {
@@ -48,7 +48,7 @@ const UserAccount: React.FC = () => {
     try {
       const response = await axios.delete(`http://localhost:5146/api/users/${user?.id}`);
       if (response.status === 200) {
-        setUser(null);
+        logout();
         toast.success('Account deleted successfully.');
         navigate('/');
       }

@@ -4,17 +4,17 @@ import TripList from './components/triplist/TripList';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Register from './components/register/register/Register';
 import Login from './components/login/Login';
-import { useCurrentUser, UserProvider } from './contexts/CurrentUserContext';
 import Navbar from './components/navbar/Navbar';
 import 'react-toastify/dist/ReactToastify.css';
 import UserAccount from './components/user-account/UserAccount';
 import AdminAccount from './components/admin-account/AdminAccount';
+import { AuthProvider } from './contexts/AuthContext';
 
 const App: React.FC = () => {
 
   return (
     <div className="App">
-      <UserProvider>
+      <AuthProvider>
         <BrowserRouter> 
         <Navbar />
           <Routes>
@@ -25,7 +25,7 @@ const App: React.FC = () => {
             <Route path="/admin-account" element={<AdminAccount />} />
           </Routes>
         </BrowserRouter>
-      </UserProvider>
+      </AuthProvider>
     </div>
   );
 };

@@ -5,14 +5,19 @@ namespace VZAggregator.Interfaces
     public interface IUsersService
     {
          ///<summary>
-        /// Gets user
+        /// Gets users list
         ///</summary>
         Task<IEnumerable<UserDto>> GetUsersAsync();
 
         ///<summary>
-        /// Gets users list
+        /// Gets user by id
         ///</summary>
         Task<UserDto> GetUserAsync(int id);
+
+        ///<summary>
+        /// Gets user by name
+        ///</summary>
+        Task<UserDto> GetUserByNameAsync(string name);
 
         ///<summary>
         /// Creates user

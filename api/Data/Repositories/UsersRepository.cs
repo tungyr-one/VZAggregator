@@ -21,6 +21,13 @@ namespace VZAggregator.Data.Repositories
             .FirstOrDefaultAsync(u => u.Id == id);
         }
 
+        public async Task<AppUser> GetUserByNameAsync(string userName)
+        {
+            return await _context.Users
+            .Include(u => u.Addresses)           
+            .FirstOrDefaultAsync(u => u.UserName == userName);
+        }
+
         public async Task<AppUser[]> GetUsersAsync()
         {
             var query = _context.Users.Include(d => d.Addresses).AsQueryable();

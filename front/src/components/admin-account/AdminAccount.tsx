@@ -1,12 +1,14 @@
 import React, { useState, useEffect, FormEvent } from 'react';
-import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './AdminAccount.css';
+import { useAuth } from '../../contexts/AuthContext';
+import { User } from '../../models/User';
+import UserProfile from '../user-profile/UserProfile';
 
 const AdminAccount: React.FC = () => {
-  const { currentUser: user, setCurrentUser: setUser } = useCurrentUser();
+  const { user, login, logout, hasRole } = useAuth();
   const [activeTab, setActiveTab] = useState("Admin Info");
   const navigate = useNavigate();
 
@@ -20,10 +22,11 @@ const AdminAccount: React.FC = () => {
 
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({ userName: user?.userName, email: user?.email });
-  const [userDeletionFormData, setUserDeletionFormData] = useState({ userName: user?.userName});
+  const [userSearchFormData, setUserSearchFormData] = useState({ userName: 'vasya'});
+  const [fetchedUserData, setFetchedUserData] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Load data if necessary
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +40,7 @@ const AdminAccount: React.FC = () => {
     try {
       const response = await axios.put(`http://localhost:5146/api/users/${user?.id}`, formData);
       if (response.status === 200) {
-        setUser(response.data);
+        login(response.data);
         toast.success('Update successful!');
       }
     } catch (error) {
@@ -49,7 +52,7 @@ const AdminAccount: React.FC = () => {
     try {
       const response = await axios.delete(`http://localhost:5146/api/users/${user?.id}`);
       if (response.status === 200) {
-        setUser(null);
+        // setUser(null);
         toast.success('Account deleted successfully.');
         navigate('/');
       }
@@ -58,20 +61,32 @@ const AdminAccount: React.FC = () => {
     }
   };
 
-  const handleDeleteUsersAccount = async () => {
+  const handleFindUser = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
     try {
-      const response = await axios.delete(`http://localhost:5146/api/account/${userDeletionFormData.userName}`);
+      const response = await axios.get(`http://localhost:5146/api/users/username/${userSearchFormData.userName}`, {
+      });
+
+      console.log("user by name:", response.data);
       if (response.status === 200) {
-        toast.success('Users account deleted successfully.');
+        setFetchedUserData(response.data);
+        setError(null);
       }
-    } catch (error) {
-      toast.error('Failed to delete account. Please try again.');
+    } catch (error: unknown) {
+      let errorMessage = 'Failed to get user data. Please try again.'
+      if (axios.isAxiosError(error)) {
+        if (error.response?.data?.message) {
+          errorMessage = error.response.data.message;
+        } 
+        setError(error.response?.data?.message || errorMessage);
+        toast.error(errorMessage);
+      } else {
+        errorMessage = 'An unexpected error occurred. Please try again.'
+        setError(errorMessage);
+        toast.error(errorMessage);
+      }
     }
   };
-
-  function FetchUser(event: FormEvent<HTMLFormElement>): void {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <div className="user-account-page">
@@ -115,16 +130,18 @@ const AdminAccount: React.FC = () => {
           <div className="manage-users">
             <h3>Get users info</h3>
 
-            <form onSubmit={handleDeleteUsersAccount}>
-              <div className='form-group'>
+            <form onSubmit={handleFindUser}>
+              <div className='admin-form-group'>
+              <strong>Name:</strong>
                 <input type="text"
-                placeholder="userName"
-                value={userDeletionFormData.userName}
-                onChange={(e) => setUserDeletionFormData({...userDeletionFormData, userName: e.target.value})} />
+                placeholder="Enter username"
+                value={userSearchFormData.userName}
+                onChange={(e) => setUserSearchFormData({...userSearchFormData, userName: e.target.value})} />
+              <button type='submit' className='Find-user-btn'>Find</button>
               </div>
-              {/* <button onClick={FetchUser}>Find</button> */}
-            <button type='submit' className='delete-account-btn'>Delete account</button>
+            {fetchedUserData && <UserProfile user={fetchedUserData} />}
             </form>
+
             
           </div>
         )}
@@ -143,7 +160,6 @@ const AdminAccount: React.FC = () => {
         {activeTab === "Orders" && (
           <div className="order-history">
             <h3>Order History</h3>
-            {/* Replace with real orders data if available */}
             <p>No orders found.</p>
           </div>
         )}
@@ -153,3 +169,5 @@ const AdminAccount: React.FC = () => {
 };
 
 export default AdminAccount;
+
+

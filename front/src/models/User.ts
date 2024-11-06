@@ -30,6 +30,6 @@ export interface AddressEntity {
     subscriptionTripsCount?: number;
     notes?: string;
     orders: OrderEntity[];
-    userRoles: Role[];
+    userRoles: string[];
   }
   

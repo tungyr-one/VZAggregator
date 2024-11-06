@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useCurrentUser } from '../../../contexts/CurrentUserContext';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Register.css'
+import { useAuth } from '../../../contexts/AuthContext';
 
 interface RegistrationData {
   username: string;
@@ -23,7 +23,8 @@ const Register: React.FC = () => {
     confirmPassword: 'Passw0rd',
     city: 'NS'
   });
-  const { setCurrentUser: setUser } = useCurrentUser();
+
+  const {user, login} = useAuth();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -75,7 +76,7 @@ const Register: React.FC = () => {
 
       if (response.status === 200) {
         setSuccess(true);
-        setUser(response.data);
+        login(response.data);
         toast.success('Register successful!');
         setTimeout(() => {
           navigate('/');

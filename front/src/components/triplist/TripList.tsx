@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './TripList.css';
-import { Link } from 'react-router-dom';
 import { Trip } from '../../models/Trip';
 import { Pagination } from '../../models/Pagination';
-import { useCurrentUser } from '../../contexts/CurrentUserContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -68,7 +66,6 @@ const TripList: React.FC = () => {
         />
       </div>
 
-      {/* Sort */}
       <div>
         <label>Sort by: </label>
         <select value={params.sortBy} onChange={handleSortChange}>

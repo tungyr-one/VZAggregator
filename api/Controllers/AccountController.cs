@@ -77,27 +77,6 @@ namespace api.Controllers
             return Ok(loggedUser);
         }
 
-        [HttpDelete("{name}")]
-        public async Task<ActionResult<UserDto>> Delete(string name)
-        {
-            name = name.ToLower();
-
-            var user = await _userManager.Users
-            .SingleOrDefaultAsync(x => x.UserName == name);
-
-            if (user == null) return BadRequest(new { message = "No such user" });
-
-            var result = await _userManager.DeleteAsync(user);
-
-            if(!result.Succeeded)
-            {
-                var errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
-                return BadRequest(new { Message = errorMessages });
-            } 
-
-            return Ok();
-        }
-
         private async Task<bool> UserExists(string username)
         {
             return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());

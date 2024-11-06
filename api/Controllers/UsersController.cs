@@ -18,10 +18,23 @@ namespace VZAggregator.Controllers
         ///<summary>
         /// Gets user from service, if null returns NotFound
         ///</summary>
-        [HttpGet("{id}")]
+        [HttpGet("id/{id:int}")]
         public async Task<ActionResult<UserDto>> GetUser(int id)
         {
             return await _usersService.GetUserAsync(id) switch
+            {
+                null => NotFound(),
+                var user => Ok(user)
+            };
+        }
+
+        ///<summary>
+        /// Gets user from service by name, if null returns NotFound
+        ///</summary>
+        [HttpGet("username/{userName}")]
+        public async Task<ActionResult<UserDto>> GetUserByName(string userName)
+        {
+            return await _usersService.GetUserByNameAsync(userName) switch
             {
                 null => NotFound(),
                 var user => Ok(user)
