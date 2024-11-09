@@ -60,14 +60,24 @@ namespace api.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
+
             var user = await _userManager.Users
             .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
-
-            if (user == null) return Unauthorized(new { message = "Invalid username" });
             
+            if (user == null) return Unauthorized(new { message = "Invalid username" });
+
+            if (await _userManager.IsLockedOutAsync(user))
+            {
+                return Unauthorized(new { message = "Account locked due to too many failed attempts. Try again later." });
+            }
+                       
             var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 
-            if(!result) return Unauthorized(new { message = "Invalid password" });
+            if(!result)
+            {
+                await _userManager.AccessFailedAsync(user);
+                return Unauthorized(new { message = "Invalid password" });
+            }
 
             var loggedUser = _mapper.Map<UserDto>(user);
             loggedUser.UserRoles = await _userManager.GetRolesAsync(user);

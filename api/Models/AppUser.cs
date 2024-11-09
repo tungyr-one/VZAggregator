@@ -21,5 +21,13 @@ namespace api.Models
 
         public IList<Order> Orders { get; set; }
         public ICollection<AppUserRole> UserRoles { get; set; }
-    }
+
+        public AppUser()
+        {
+            LockoutEnabled = true;  
+            AccessFailedCount = 0;
+            LockoutEnd = null;
+        }
+
+        }
 }

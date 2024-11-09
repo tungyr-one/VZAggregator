@@ -140,7 +140,7 @@ namespace VZAggregator.Migrations
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("VZAggregator.Models.Carrier", b =>
@@ -165,7 +165,7 @@ namespace VZAggregator.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Carriers");
+                    b.ToTable("Carriers", (string)null);
                 });
 
             modelBuilder.Entity("VZAggregator.Models.Order", b =>
@@ -212,7 +212,7 @@ namespace VZAggregator.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("VZAggregator.Models.Transport", b =>
@@ -239,7 +239,7 @@ namespace VZAggregator.Migrations
 
                     b.HasIndex("CarrierId");
 
-                    b.ToTable("Transports");
+                    b.ToTable("Transports", (string)null);
                 });
 
             modelBuilder.Entity("VZAggregator.Models.Trip", b =>
@@ -290,7 +290,7 @@ namespace VZAggregator.Migrations
 
                     b.HasIndex("TransportId");
 
-                    b.ToTable("Trips");
+                    b.ToTable("Trips", (string)null);
                 });
 
             modelBuilder.Entity("api.Models.AppRole", b =>
