@@ -6,26 +6,26 @@ import Register from './components/register/register/Register';
 import Login from './components/login/Login';
 import Navbar from './components/navbar/Navbar';
 import 'react-toastify/dist/ReactToastify.css';
-import UserAccount from './components/user-account/UserAccount';
-import AdminAccount from './components/admin-account/AdminAccount';
+import UserDashboard from './components/user-dashboard/UserDashboard';
+import AdminDashboard from './components/admin-dashboard/AdminDashboard';
 import { AuthProvider } from './contexts/AuthContext';
 
 const App: React.FC = () => {
 
   return (
     <div className="App">
+    <BrowserRouter> 
       <AuthProvider>
-        <BrowserRouter> 
         <Navbar />
           <Routes>
             <Route path="/" element={<TripList />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/user-account" element={<UserAccount />} />
-            <Route path="/admin-account" element={<AdminAccount />} />
+            <Route path="/user-account" element={<UserDashboard />} />
+            <Route path="/admin-account" element={<AdminDashboard />} />
           </Routes>
-        </BrowserRouter>
-      </AuthProvider>
+        </AuthProvider>
+      </BrowserRouter>
     </div>
   );
 };

@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { User } from '../models/User';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthContextType {
-  user: User | null;
-  login: (userData: User) => void;
+  currentUser: User | undefined;
+  login: (userData: User | undefined) => void;
   logout: () => void;
   hasRole: (roleName: string) => boolean;
   logIt:(message:string) => void;
@@ -18,16 +19,18 @@ export const useAuth = () => {
 };
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [currentUser, setUser] = useState<User | undefined>(undefined);
+  const navigate = useNavigate();
 
-  const login = (userData: User) => {
+  const login = (userData: User | undefined) => {
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {
-    setUser(null);
+    setUser(undefined);
     localStorage.removeItem('user');
+    navigate("/");
   };
 
   const logIt = (message: string) => {
@@ -35,7 +38,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
 
   const hasRole = (roleName: string) => {
-    return user?.userRoles.some(role => role === roleName) ?? false;
+    return currentUser?.userRoles.some(role => role === roleName) ?? false;
   };
 
   useEffect(() => {
@@ -44,7 +47,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, hasRole , logIt}}>
+    <AuthContext.Provider value={{ currentUser: currentUser, login, logout, hasRole , logIt}}>
       {children}
     </AuthContext.Provider>
   );

@@ -14,8 +14,7 @@ interface LoginData {
 const Login: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
-  // const [username, setUsername] = useState('');
-  // const [password, setPassword] = useState('');
+
 
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
@@ -40,9 +39,7 @@ const Login: React.FC = () => {
         console.log("rolename login", response.data.userRoles[0]);
         setSuccess(true);
         setError(null);
-        // setUser(response.data);
         login(response.data);
-        // localStorage.setItem('user', JSON.stringify(response.data));
         toast.success('Login successful!');
         setTimeout(() => {
           navigate('/');

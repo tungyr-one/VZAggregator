@@ -15,7 +15,6 @@ interface RegistrationData {
 }
 
 const Register: React.FC = () => {
-  // State for form fields
   const [formData, setFormData] = useState<RegistrationData>({
     username: 'vasya',
     email: 'vasya@gmail.com',
@@ -24,7 +23,7 @@ const Register: React.FC = () => {
     city: 'NS'
   });
 
-  const {user, login} = useAuth();
+  const {currentUser: user, login} = useAuth();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 

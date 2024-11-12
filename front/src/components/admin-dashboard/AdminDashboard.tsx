@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import './UserAccount.css';
+import './AdminDashboard.css';
 import { useAuth } from '../../contexts/AuthContext';
+import { User } from '../../models/User';
+import UserProfile from '../user-profile/UserProfile';
+import { deleteUserAccount, fetchUser } from '../../services/AccountService';
 
-const UserAccount: React.FC = () => {
-  const {user, login, logout, logIt} = useAuth();
-  const [activeTab, setActiveTab] = useState("User Info");
+const AdminDashboard: React.FC = () => {
+  const { currentUser: user, login, logout, hasRole } = useAuth();
+  const [activeTab, setActiveTab] = useState("Admin Info");
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState({
@@ -18,12 +21,20 @@ const UserAccount: React.FC = () => {
     orders: [],
   });
 
+  useEffect(() => {
+
+  }, []);
+
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({ userName: user?.userName, email: user?.email });
+  const [userSearchFormData, setUserSearchFormData] = useState({ userName: 'vasya'});
+  const [fetchedUserData, setFetchedUserData] = useState<User | null>(null);
 
-  useEffect(() => {
-    logIt('hello react!!!!!!!!!!!!!!')
-  }, []);
+
+  const resetTab = () => {
+    setFetchedUserData(null);
+    setUserSearchFormData({ userName: '' });
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,18 +55,18 @@ const UserAccount: React.FC = () => {
     }
   };
 
-  const handleDeleteAccount = async () => {
-    try {
-      const response = await axios.delete(`http://localhost:5146/api/users/${user?.id}`);
-      if (response.status === 200) {
-        logout();
-        toast.success('Account deleted successfully.');
-        navigate('/');
-      }
-    } catch (error) {
-      toast.error('Failed to delete account. Please try again.');
-    }
+  const handleDeleteSelfAccount = async () => {
+    const success = await deleteUserAccount(user?.id);
+    if (success) {
+      logout();
+      navigate('/');
   };
+}
+
+const handleFindUser = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault()
+  setFetchedUserData(await fetchUser(userSearchFormData.userName));
+  }
 
   return (
     <div className="user-account-page">
@@ -63,8 +74,8 @@ const UserAccount: React.FC = () => {
 
       <aside className="sidebar">
         <ul>
-          <li onClick={() => setActiveTab("User Info")} className={activeTab === "User Info" ? "active" : ""}>User Info</li>
-          <li onClick={() => setActiveTab("Balance")} className={activeTab === "Balance" ? "active" : ""}>Account Balance</li>
+          <li onClick={() => setActiveTab("Admin Info")} className={activeTab === "Admin Info" ? "active" : ""}>Admin Info</li>
+          <li onClick={() => setActiveTab("Manage Users")} className={activeTab === "Manage Users" ? "active" : ""}>Manage Users</li>
           <li onClick={() => setActiveTab("Discounts")} className={activeTab === "Discounts" ? "active" : ""}>Discounts</li>
           <li onClick={() => setActiveTab("Orders")} className={activeTab === "Orders" ? "active" : ""}>Order History</li>
         </ul>
@@ -73,7 +84,7 @@ const UserAccount: React.FC = () => {
       <main className="content">
         <h2>{activeTab}</h2>
 
-        {activeTab === "User Info" && (
+        {activeTab === "Admin Info" && (
           <div className="user-info">
             {editMode ? (
               <>
@@ -91,14 +102,27 @@ const UserAccount: React.FC = () => {
                 <button className="edit-button" onClick={() => setEditMode(true)}>Edit</button>
               </>
             )}
-             <button onClick={handleDeleteAccount} className="delete-account-btn">Delete Account</button>
+             <button onClick={handleDeleteSelfAccount} className="delete-account-btn">Delete Account</button>
           </div>
         )}
 
-        {activeTab === "Balance" && (
-          <div className="account-balance">
-            <h3>Balance</h3>
-            <p>${userData.balance}</p>
+        {activeTab === "Manage Users" && (
+          <div className="manage-users">
+            <h3>Get users info</h3>
+
+            <form onSubmit={handleFindUser}>
+              <div className='admin-form-group'>
+              <strong>Name:</strong>
+                <input type="text"
+                placeholder="Enter username"
+                value={userSearchFormData.userName}
+                onChange={(e) => setUserSearchFormData({...userSearchFormData, userName: e.target.value})} />
+              <button type='submit' className='Find-user-btn'>Find</button>
+              </div>
+            {fetchedUserData && <UserProfile user={fetchedUserData} onDelete={resetTab}/>}
+            </form>
+
+            
           </div>
         )}
 
@@ -116,7 +140,6 @@ const UserAccount: React.FC = () => {
         {activeTab === "Orders" && (
           <div className="order-history">
             <h3>Order History</h3>
-            {/* Replace with real orders data if available */}
             <p>No orders found.</p>
           </div>
         )}
@@ -125,4 +148,6 @@ const UserAccount: React.FC = () => {
   );
 };
 
-export default UserAccount;
+export default AdminDashboard;
+
+

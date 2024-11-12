@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
-  const { user, hasRole } = useAuth();
+  const { currentUser: user, hasRole } = useAuth();
 
   if (!user) {
     return <Navigate to="/login" replace />;

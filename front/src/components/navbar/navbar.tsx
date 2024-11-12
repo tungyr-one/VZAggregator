@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 const Navbar: React.FC = () => {
     const navigate = useNavigate();
-    const { user, logout, hasRole } = useAuth();
+    const { currentUser: user, logout, hasRole } = useAuth();
 
       const handleLogout = () => {
         logout();
