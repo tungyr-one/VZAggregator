@@ -13,7 +13,7 @@ namespace VZAggregator.Data
 
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<AppUser> Users { get; set; }
+        // public DbSet<AppUser> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Carrier> Carriers { get; set; }
         public DbSet<Transport> Transports { get; set; }

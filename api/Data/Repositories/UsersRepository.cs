@@ -16,9 +16,16 @@ namespace VZAggregator.Data.Repositories
 
        public async Task<AppUser> GetUserAsync(int id)
         {
-            return await _context.Users.AsNoTracking()
+            return await _context.Users
             .Include(u => u.Addresses)           
             .FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<AppUser> GetUserByNameAsync(string userName)
+        {
+            return await _context.Users
+            .Include(u => u.Addresses)           
+            .FirstOrDefaultAsync(u => u.UserName == userName);
         }
 
         public async Task<AppUser[]> GetUsersAsync()
@@ -46,5 +53,6 @@ namespace VZAggregator.Data.Repositories
             _context.Entry(userToDelete).State = EntityState.Deleted; 
             return await _context.SaveChangesAsync() > 0;
         }
+
     }
 }

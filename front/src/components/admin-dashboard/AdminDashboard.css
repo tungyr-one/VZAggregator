@@ -1,0 +1,105 @@
+.user-account-page {
+  display: flex;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 10px 0;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.sidebar li.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.sidebar li {
+  text-decoration: none;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.user-info input {
+  display: block;
+  margin: auto;
+  width: min-content;
+  margin-bottom: 20px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+}
+
+.delete-account-btn {
+  margin-top: 20px;
+  color: red;
+  cursor: pointer;
+  width: min-content;
+  display: block;
+  margin: auto;
+
+}
+
+.edit-button {
+  margin: auto;
+  display: block;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s;
+  width: min-content;
+  margin: 10px;
+  display: inline;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.delete-account-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  background-color: red;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  width: min-content;
+}
+
+.delete-account-btn:hover {
+  background-color: darkred;
+}
+
+.admin-form-group {
+  display:  inline;
+  align-items: center;
+}
+
+.admin-form-group input{
+  margin: auto;
+  margin-left: 20px;
+}

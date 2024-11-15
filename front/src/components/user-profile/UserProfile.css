@@ -1,0 +1,32 @@
+.user-profile {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .user-section {
+    margin-bottom: 20px;
+  }
+  
+  .user-section h2 {
+    font-size: 1.2em;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .user-section p,
+  .user-section li {
+    font-size: 1em;
+    margin: 4px 0;
+  }
+  
+  ul {
+    padding-left: 20px;
+  }
+  

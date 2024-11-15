@@ -1,24 +1,59 @@
-/* Basic styles for the navbar */
 .navbar {
-    background-color: #333;
-    padding: 1rem;
-  }
-  
-  .navbar-links {
-    display: flex;
-    justify-content: space-around;
-    list-style-type: none;
-  }
-  
-  .navbar-links a {
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
-  }
-  
-  .navbar-links a:hover {
-    background-color: #555;
-    color: white;
-    border-radius: 4px;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #333;
+}
+
+.navbar-links {
+  list-style-type: none;
+  display: flex;
+  gap: 15px;
+}
+
+.navbar-links li {
+  display: inline;
+}
+
+.navbar-links a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.navbar-links a:hover {
+  background-color: #4b7bff;
+  border-radius: 4px;
+}
+
+.right-side {
+  margin-left: auto;
+}
+
+.navbar-links a.account-name {
+  font-weight: 700;
+  font-size: large;
+  color: orange;
+}
+
+.navbar-links li.role-name {
+  font-weight: 300;
+  font-size: medium;
+  color: rgb(82, 255, 189);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-info .account-name, 
+.user-info .role-name {
+  padding: 5px 0;
+}
+
+

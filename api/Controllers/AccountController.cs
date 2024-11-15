@@ -14,14 +14,16 @@ namespace api.Controllers
     public class AccountController:ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
-      private readonly ITokenService _tokenService;
+        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
 
-        public AccountController(UserManager<AppUser> userManager, ITokenService tokenService, IMapper mapper)
+        public AccountController(UserManager<AppUser> userManager, 
+                                    ITokenService tokenService, 
+                                    IMapper mapper)
         {
-            this._mapper = mapper;
-            this._userManager = userManager;
-            this._tokenService = tokenService;
+            _mapper = mapper;
+            _userManager = userManager;
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
@@ -31,10 +33,9 @@ namespace api.Controllers
             
             var user = _mapper.Map<AppUser>(registerDto);
 
-            user.Name = registerDto.Username.ToLower();
+            user.UserName = registerDto.Username.ToLower();
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
-
 
             if(!result.Succeeded)
             {
@@ -50,26 +51,40 @@ namespace api.Controllers
                 return BadRequest(new { Message = errorMessages });
             } 
 
-            return Ok(new { message = "Registration successful"});
+            var newUser = _mapper.Map<UserDto>(user);
+            newUser.Token = await _tokenService.CreateToken(user);
+
+            return Ok(newUser);
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
+
             var user = await _userManager.Users
             .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
-
-            if (user == null) return Unauthorized(new { message = "Invalid username" });
             
+            if (user == null) return Unauthorized(new { message = "Invalid username" });
+
+            if (await _userManager.IsLockedOutAsync(user))
+            {
+                return Unauthorized(new { message = "Account locked due to too many failed attempts. Try again later." });
+            }
+                       
             var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 
-            if(!result) return Unauthorized(new { message = "Invalid password" });
-
-            return new UserDto
+            if(!result)
             {
-                Name = user.Name,
-                Token = await _tokenService.CreateToken(user)
-            };
+                await _userManager.AccessFailedAsync(user);
+                return Unauthorized(new { message = "Invalid password" });
+            }
+
+            var loggedUser = _mapper.Map<UserDto>(user);
+            loggedUser.UserRoles = await _userManager.GetRolesAsync(user);
+
+            loggedUser.Token = await _tokenService.CreateToken(user);
+
+            return Ok(loggedUser);
         }
 
         private async Task<bool> UserExists(string username)

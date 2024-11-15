@@ -1,3 +1,4 @@
+using api.Controllers.Middleware;
 using api.Extensions;
 using api.Models;
 using Microsoft.AspNetCore.Identity;
@@ -19,12 +20,27 @@ var services = builder.Services;
 
 services.AddControllers();
 services.AddApplicationServices(builder.Configuration);
+
 builder.Services.AddIdentityServices(builder.Configuration);
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+var config = builder.Configuration;
+var env = app.Environment;
+
+if (env.IsDevelopment())
+{
+    app.UseMiddleware<ErrorHandlingMiddleware>();
+    // app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseMiddleware<ErrorHandlingMiddleware>();
+    app.UseHsts();
+}
 
 app.UseCors("AllowAll");
 
@@ -40,6 +56,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.MapControllers();
+
 
 using var scope = app.Services.CreateScope();
 

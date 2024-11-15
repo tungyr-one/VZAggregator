@@ -3,6 +3,7 @@ using VZAggregator.DTOs;
 using VZAggregator.Models;
 using VZAggregator.Interfaces;
 using api.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace VZAggregator.Services
 {
@@ -10,16 +11,25 @@ namespace VZAggregator.Services
     {
         private readonly IUsersRepository _usersRepository;
         private readonly IMapper _mapper;
+        private readonly UserManager<AppUser> _userManager;
 
         public UsersService(IUsersRepository usersRepository,
-            IMapper mapper)
+            IMapper mapper,
+            UserManager<AppUser> userManager)
         {
             _usersRepository = usersRepository;
             _mapper = mapper;
+            _userManager = userManager;
         }
         public async Task<UserDto> GetUserAsync(int id)
         {
             var user = await _usersRepository.GetUserAsync(id);
+            return _mapper.Map<UserDto>(user);
+        }
+
+        public async Task<UserDto> GetUserByNameAsync(string userName)
+        {
+            var user = await _usersRepository.GetUserByNameAsync(userName);
             return _mapper.Map<UserDto>(user);
         }
 
@@ -36,16 +46,21 @@ namespace VZAggregator.Services
             return await _usersRepository.CreateAsync(userToDb);
         }
 
-        public async Task<bool> UpdateAsync(int id, UserDto userUpdate)
+        public async Task<UserDto> UpdateAsync(int id, UserUpdateDto userUpdate)
         {
-            var userDb = await _usersRepository.GetUserAsync(id);
-            _mapper.Map(userUpdate, userDb);
-            userUpdate.Updated = DateTime.UtcNow;
-            if(!await _usersRepository.UpdateAsync(userDb)) 
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null) throw new ArgumentException("User not found");
+            _mapper.Map(userUpdate, user);
+            user.Updated = DateTime.UtcNow;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
             {
-                throw new ArgumentException("Failed to update user");
+                throw new ArgumentException("Failed to update user: " + string.Join(", ", result.Errors.Select(e => e.Description)));
             }
-            return true;
+
+            var updatedUserDto = _mapper.Map<UserDto>(user);
+            return updatedUserDto;
         }
 
         public async Task<bool> DeleteAsync(int id)

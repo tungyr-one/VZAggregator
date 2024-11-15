@@ -12,7 +12,7 @@ using VZAggregator.Data;
 namespace VZAggregator.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241007111538_InitialMigration")]
+    [Migration("20241101222414_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -368,9 +368,6 @@ namespace VZAggregator.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)

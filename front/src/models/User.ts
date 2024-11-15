@@ -1,3 +1,5 @@
+import { Role } from "./Role";
+
 export interface AddressEntity {
   }
   
@@ -10,11 +12,11 @@ export interface AddressEntity {
     Yearly = 2
   }
   
-  export interface UserEntity {
-    userId: number;
+  export interface User {
+    id: number;
     created: string;
     updated?: string;
-    name?: string;
+    userName?: string;
     telegramNick: string;
     birthDate?: string;
     lastTrip?: string;
@@ -28,5 +30,6 @@ export interface AddressEntity {
     subscriptionTripsCount?: number;
     notes?: string;
     orders: OrderEntity[];
+    userRoles: string[];
   }
   

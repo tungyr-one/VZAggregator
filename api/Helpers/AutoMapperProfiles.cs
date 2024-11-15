@@ -15,6 +15,7 @@ namespace VZAggregator.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<RegisterDto, AppUser>();
+            CreateMap<UserUpdateDto, AppUser>();
             CreateMap<AppUser, UserDto>().ReverseMap();
             CreateMap<Address, AddressDto>().ReverseMap();
             CreateMap<Carrier, CarrierDto>().ReverseMap();
