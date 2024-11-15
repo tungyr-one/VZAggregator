@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
 import './App.css';
 import TripList from './components/triplist/TripList';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Register from './components/register/register/Register';
 import Login from './components/login/Login';
-import Navbar from './components/navbar/Navbar';
 import 'react-toastify/dist/ReactToastify.css';
 import UserDashboard from './components/user-dashboard/UserDashboard';
 import AdminDashboard from './components/admin-dashboard/AdminDashboard';
 import { AuthProvider } from './contexts/AuthContext';
+import Navbar from './components/navbar/navbar';
 
 const App: React.FC = () => {
 

@@ -45,7 +45,7 @@ const AdminDashboard: React.FC = () => {
     setUserData((prev) => ({ ...prev, ...formData }));
     setEditMode(false);
     try {
-      const response = await axios.put(`http://localhost:5146/api/users/${user?.id}`, formData);
+      const response = await axios.put(process.env.REACT_APP_API_URL + `/users/${user?.id}`, formData);
       if (response.status === 200) {
         login(response.data);
         toast.success('Update successful!');

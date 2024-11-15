@@ -9,7 +9,6 @@ namespace VZAggregator.DTOs
         public string TelegramNick { get; set; }
         public DateTime? BirthDate { get; set; }
         public DateTime? LastTrip { get; set; }
-        public DateTime Updated {get; set; }
         public string PhoneNumber { get; set; }
         public IList<Address> Addresses { get; set; }
         public int TripsCount { get; set; }

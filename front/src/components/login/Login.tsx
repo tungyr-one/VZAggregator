@@ -8,7 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
 
 interface LoginData {
   username: string;
-  password: string;
+  password: string | undefined;
 }
 
 const Login: React.FC = () => {
@@ -21,7 +21,7 @@ const Login: React.FC = () => {
 
   const [formData, setFormData] = useState<LoginData>({
     username: 'vasya',
-    password: 'Passw0rd',
+    password: process.env.REACT_APP_DEFAULT_DEV_PASSWORD,
   });
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -30,7 +30,7 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5146/api/account/login', {
+      const response = await axios.post(process.env.REACT_APP_API_URL + `/account/login`, {
         username: formData.username,
         password: formData.password,
       });

@@ -9,8 +9,8 @@ import { useAuth } from '../../../contexts/AuthContext';
 interface RegistrationData {
   username: string;
   email: string;
-  password: string;
-  confirmPassword: string;
+  password: string | undefined;
+  confirmPassword: string | undefined;
   city: string;
 }
 
@@ -18,8 +18,8 @@ const Register: React.FC = () => {
   const [formData, setFormData] = useState<RegistrationData>({
     username: 'vasya',
     email: 'vasya@gmail.com',
-    password: 'Passw0rd',
-    confirmPassword: 'Passw0rd',
+    password:  process.env.REACT_APP_DEFAULT_DEV_PASSWORD,
+    confirmPassword: process.env.REACT_APP_DEFAULT_DEV_PASSWORD,
     city: 'NS'
   });
 
@@ -30,20 +30,25 @@ const Register: React.FC = () => {
   const [success, setSuccess] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const validatePassword = (password: string) => {
+  const validatePassword = (password: string | undefined) => {
     const errors: string[] = [];
   
     if (formData.password !== formData.confirmPassword) {
       errors.push('Passwords do not match!');
     }
-  
-    if (password.length < 6 || password.length > 8) {
-      errors.push("Password must be between 6 and 8 characters.");
+
+    if (password)
+    {
+        if (password.length < 6 || password.length > 10) {
+        errors.push("Password must be between 6 and 10 characters.");
+        }
+      
+        if (!/\d/.test(password)) {
+          errors.push("Password must contain at least one digit.");
+      }
     }
   
-    if (!/\d/.test(password)) {
-      errors.push("Password must contain at least one digit.");
-    }
+
   
     if (errors.length > 0) {
       errors.forEach(error => toast.error(error));
@@ -62,11 +67,12 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if(formData.password)
     if(!validatePassword(formData.password))
       return;
 
     try {
-      const response = await axios.post('http://localhost:5146/api/account/register', {
+      const response = await axios.post(process.env.REACT_APP_API_URL + '/account/register', {
         username: formData.username,
         email: formData.email,
         password: formData.password,
@@ -81,7 +87,7 @@ const Register: React.FC = () => {
           navigate('/');
         }, 1000);
       }
-    } catch (error) {
+    } catch (error:any) {
       let errorMessage = 'Failed to register. Please try again.'
       if (axios.isAxiosError(error)) {
         if (error.response?.data?.message) {
